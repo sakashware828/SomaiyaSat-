@@ -3,7 +3,7 @@
 An onboard data scheduler for a sub-1 W PocketQube satellite (SomaiyaSat / SomaiyaPod), built using **data structures**.
 Use case: **KJS-SRS-01**
 
-**Live demo:** https://YOUR-USERNAME.github.io/YOUR-REPO-NAME
+**Live demo:** https://sakashware828.github.io/SomaiyaSat-/
 
 ## What it does
 
