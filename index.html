@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SomaiyaSat Mission Scheduler · KJS-SRS-01</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛰️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1316;--bg2:#141b1f;--card:#182025;--bd:#2a353b;--tx:#eef2f4;--mu:#8fa0a8;--or:#ff7a45;--tl:#4fd1c5;--rd:#f26d6d;--am:#f5b84b;--grid:rgba(255,255,255,.045);
+--sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=light]{--bg:#f3f5f6;--bg2:#e9edef;--card:#fff;--bd:#d5dce0;--tx:#13191c;--mu:#5d6d75;--or:#e8551a;--tl:#0f9d8f;--rd:#d63b3b;--am:#b7791f;--grid:rgba(0,0,0,.05)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.55 var(--sans);color:var(--tx);background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/48px 48px,var(--bg);min-height:100vh}
+.w{max-width:1120px;margin:0 auto;padding:0 20px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#ff8a50,#e8551a);display:grid;place-items:center;font-size:24px;box-shadow:0 6px 22px rgba(255,122,69,.4)}
+.brand b{display:block;font-size:18px;line-height:1.1}
+.brand small{font:500 10.5px var(--mono);letter-spacing:.16em;color:var(--mu);text-transform:uppercase}
+nav{display:flex;gap:26px}
+nav a{color:var(--mu);text-decoration:none;font-weight:600;padding:14px 2px;border-bottom:2px solid transparent;margin-bottom:-19px}
+nav a.on{color:var(--tx);border-color:var(--or)}
+.ic{width:42px;height:42px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:18px;cursor:pointer}
+.tag{font:600 11px var(--mono);letter-spacing:.14em;color:var(--or);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--tl);box-shadow:0 0 10px var(--tl);display:inline-block}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:46px 0 26px}
+h1{font-size:clamp(34px,7vw,64px);line-height:1.02;letter-spacing:-.035em;margin:12px 0;font-weight:800}
+.lead{color:var(--mu);max-width:640px;font-size:17px;margin:0}
+.payload{border-left:2px solid var(--or);padding-left:16px}
+.payload small{font:500 10.5px var(--mono);letter-spacing:.14em;color:var(--mu);display:block}
+.payload b{font-size:16px}
+.card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--bd);border-radius:18px;padding:20px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-bottom:16px}
+.g3 .card{margin:0}
+.lab{display:flex;justify-content:space-between;align-items:center;font:700 12px var(--sans);letter-spacing:.1em;color:var(--mu);text-transform:uppercase}
+.lab i{font-style:normal;color:var(--or);margin-right:8px}
+.chip{font:600 10.5px var(--mono);letter-spacing:.1em;padding:3px 10px;border-radius:99px;background:rgba(79,209,197,.15);color:var(--tl)}
+.chip.bad{background:rgba(242,109,109,.16);color:var(--rd)}.chip.mid{background:rgba(245,184,75,.16);color:var(--am)}
+.big{font-size:44px;font-weight:800;letter-spacing:-.02em;margin:14px 0 8px}
+.big small{font-size:15px;color:var(--mu);font-weight:600;margin-left:4px}
+.bar{position:relative;height:9px;border-radius:9px;background:rgba(255,255,255,.07);margin:6px 0}
+:root[data-theme=light] .bar{background:rgba(0,0,0,.08)}
+.bar>div{height:100%;border-radius:9px;background:var(--tl);transition:width .4s,background .4s}
+.bar u{position:absolute;left:15%;top:-4px;bottom:-4px;width:2px;background:var(--mu)}
+.sub{display:flex;justify-content:space-between;font:500 10.5px var(--mono);color:var(--mu)}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 10px}
+.seg span{height:6px;border-radius:6px;background:rgba(255,255,255,.08)}
+:root[data-theme=light] .seg span{background:rgba(0,0,0,.09)}
+.seg span.on{background:var(--or)}.seg.safe span{background:var(--rd)}
+.cells{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;margin:12px 0 8px}
+.cells span{height:8px;border-radius:3px;background:rgba(255,255,255,.07)}
+:root[data-theme=light] .cells span{background:rgba(0,0,0,.08)}
+.cells .TTC{background:var(--rd)}.cells .SSTV{background:var(--am)}.cells .CODEC2,.cells .M17{background:var(--tl)}
+.mono{font-family:var(--mono)}
+.ctl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;align-items:center;margin:20px 0}
+@media(max-width:760px){.ctl{grid-template-columns:1fr;gap:18px}}
+.ctl label{display:flex;justify-content:space-between;font-weight:700;margin-bottom:8px}
+.ctl label b{color:var(--or);font:500 14px var(--mono)}
+input[type=range]{width:100%;accent-color:var(--or)}
+.budget{border-left:1px solid var(--bd);padding-left:24px}
+.budget small{font:500 10.5px var(--mono);letter-spacing:.12em;color:var(--mu);text-transform:uppercase}
+.budget b{display:block;font-size:30px;font-weight:800}
+.btns{display:flex;flex-wrap:wrap;gap:10px;border-top:1px solid var(--bd);padding-top:18px}
+button.b{font:700 14px var(--sans);padding:11px 18px;border-radius:12px;border:1px solid var(--bd);background:transparent;color:var(--tx);cursor:pointer;transition:.15s}
+button.b:hover{border-color:var(--or)}
+button.b.p{background:var(--or);border-color:var(--or);color:#fff;box-shadow:0 6px 20px rgba(255,122,69,.35)}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.two .card{margin:0}
+.tw{overflow:auto;max-height:340px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font:600 10.5px var(--mono);letter-spacing:.1em;color:var(--mu);text-transform:uppercase;text-align:left;padding:8px;position:sticky;top:0;background:var(--card)}
+td{padding:7px 8px;border-top:1px solid var(--bd);white-space:nowrap}
+.pill{font:600 11px var(--mono);padding:2px 10px;border-radius:99px}
+.TTC{color:var(--rd);background:rgba(242,109,109,.15)}.SSTV{color:var(--am);background:rgba(245,184,75,.15)}.CODEC2,.M17{color:var(--tl);background:rgba(79,209,197,.15)}
+#log{font:12px/1.75 var(--mono);color:var(--mu);max-height:340px;overflow:auto}
+#log div{border-bottom:1px dashed var(--bd);padding:2px 0}
+#log .tx{color:var(--tl)}#log .wn{color:var(--am)}#log .er{color:var(--rd)}
+.chart{display:flex;align-items:flex-end;gap:14px;height:170px;margin-top:14px;padding-top:6px;border-bottom:1px solid var(--bd);overflow-x:auto}
+.col{display:flex;flex-direction:column-reverse;width:38px;flex:none;border-radius:6px 6px 0 0;overflow:hidden}
+.col i{display:block}
+.leg{display:flex;gap:16px;font:500 11px var(--mono);color:var(--mu);margin-top:10px;flex-wrap:wrap}
+.leg s{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;text-decoration:none}
+.empty{color:var(--mu);padding:20px 0;text-align:center}
+section[hidden]{display:none}
+h2{font-size:28px;letter-spacing:-.02em;margin:34px 0 6px}
+.ds{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.ds .card{margin:0}
+.ds h3{margin:0 0 4px;font-size:18px}
+.ds p{color:var(--mu);margin:4px 0 12px;font-size:14px}
+pre{background:#0a0e10;color:#cfe3e8;border:1px solid var(--bd);border-radius:12px;padding:14px;overflow:auto;font:12px/1.6 var(--mono);max-height:340px;margin:10px 0 0;white-space:pre}
+:root[data-theme=light] pre{background:#f0f4f5;color:#1c2b30}
+.cx{width:100%;margin-top:6px}
+.cx td,.cx th{font-size:12.5px}
+.rules li{margin:6px 0;color:var(--mu)}
+.rules b{color:var(--tx)}
+footer{text-align:center;color:var(--mu);font:500 11px var(--mono);margin-top:30px}
+</style>
+</head>
+<body>
+<div class="w">
+<header>
+  <div class="brand"><div class="logo">🛰️</div><div><b>SomaiyaSat</b><small>Mission scheduler</small></div></div>
+  <nav><a href="#mission" id="n1" class="on">Mission control</a><a href="#how" id="n2">How it works</a></nav>
+  <button class="ic" id="theme" aria-label="Toggle theme">☀</button>
+</header>
+
+<!-- ============ MISSION CONTROL ============ -->
+<section id="mission">
+  <div class="hero">
+    <div>
+      <div class="tag"><span class="dot"></span> Live simulation · KJS-SRS-01</div>
+      <h1>Onboard data scheduler</h1>
+      <p class="lead">Autonomous packet routing for a sub-1 W PocketQube, balancing contact time, link quality and stored power.</p>
+    </div>
+    <div class="payload"><small>ACTIVE PAYLOAD</small><b>SomaiyaSat / SomaiyaPod</b></div>
+  </div>
+
+  <div class="g3">
+    <div class="card"><div class="lab"><span><i>▭</i>Battery reserve</span><span class="chip" id="bchip">HEALTHY</span></div>
+      <div class="big"><span id="bv">4.00</span><small>Wh</small></div>
+      <div class="bar"><div id="bb"></div><u></u></div>
+      <div class="sub"><span>0 Wh</span><span>TT&amp;C reserve 0.75</span><span>5 Wh</span></div></div>
+    <div class="card"><div class="lab"><span><i>⚛</i>Deployment state</span></div>
+      <div class="big mono" style="font-size:34px" id="st">STOWED</div>
+      <div class="seg" id="seg"><span></span><span></span><span></span><span></span></div>
+      <div class="sub"><span>SomaiyaPod</span><span id="stnote">Awaiting separation switch</span></div></div>
+    <div class="card"><div class="lab"><span><i>☰</i>Packet buffer</span><span class="chip" id="qchip" style="background:rgba(120,160,255,.15);color:#8fb0ff">0/30</span></div>
+      <div class="big"><span id="qn">0</span><small>queued</small></div>
+      <div class="cells" id="cells"></div>
+      <div class="sub"><span><span id="dr">0</span> dropped</span><span>Min-heap · O(log n)</span></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lab"><span style="color:var(--or)">Ground station uplink</span><span class="chip"><span class="dot" style="width:7px;height:7px"></span> MUMBAI GS · CONNECTED</span></div>
+    <h3 style="margin:6px 0 0;font-weight:500;font-size:22px">Pass controls</h3>
+    <div class="ctl">
+      <div><label>Link quality <b id="lv">0.80</b></label><input id="link" type="range" min="0.2" max="1" step="0.05" value="0.8"></div>
+      <div><label>Pass duration <b id="dv">300 s</b></label><input id="dur" type="range" min="60" max="600" step="30" value="300"></div>
+      <div class="budget"><small>Estimated link budget</small><b id="kb">7.7 kbps</b><small id="cap" style="text-transform:none;letter-spacing:0">281 KB theoretical capacity</small></div>
+    </div>
+    <div class="btns">
+      <button class="b" id="dep">Advance deployment</button>
+      <button class="b" id="add">Add 10 packets</button>
+      <button class="b p" id="run">Run ground pass</button>
+      <button class="b" id="drain">Drain battery</button>
+      <button class="b" id="reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="card"><div class="lab"><span>Queue · transmit order</span><span class="mono" id="qc"></span></div>
+      <div class="tw"><table><thead><tr><th>#</th><th>Mode</th><th>Size (B)</th><th>Priority</th></tr></thead><tbody id="q"></tbody></table></div></div>
+    <div class="card"><div class="lab"><span>Decision log</span><span class="mono">ring buffer · 60</span></div><div id="log" style="margin-top:10px"></div></div>
+  </div>
+
+  <div class="card" style="margin-top:16px"><div class="lab"><span>Delivered per pass</span><span class="mono" id="res">no pass yet</span></div>
+    <div class="chart" id="chart"><div class="empty" style="width:100%;align-self:center">Run a pass to see results.</div></div>
+    <div class="leg"><span><s style="background:var(--rd)"></s>TT&amp;C</span><span><s style="background:var(--am)"></s>SSTV</span><span><s style="background:var(--tl)"></s>CODEC2 / M17</span></div></div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" hidden>
+  <h2>How it works</h2>
+  <p class="lead">Every ground pass is short, so the satellite must choose what to send. The queue is a hand-built binary min-heap, so the most important packet is always at the top. No <span class="mono">heapq</span>, no sorted() and no library queues are used. The code below is shown straight from the running page.</p>
+
+  <div class="card" style="margin-top:18px"><b>Scheduling rules</b>
+    <ul class="rules">
+      <li><b>Priority order:</b> TT&amp;C (0) → SSTV images (1) → Codec2 / M17 voice (2).</li>
+      <li><b>Low battery</b> (below 1.5 Wh): voice priority drops by 3. <b>Poor link</b> (below 0.4): SSTV priority drops by 2.</li>
+      <li><b>Power reserve:</b> non-TT&amp;C traffic may never push the battery below 0.75 Wh.</li>
+      <li><b>Fit check:</b> if a packet does not fit in the remaining pass time it is skipped and a smaller one is tried.</li>
+      <li><b>Bounded buffer:</b> 30 packets. When full, the lowest-priority packet is evicted.</li>
+      <li><b>Watchdog:</b> if no TT&amp;C was sent for 2 passes, a beacon is forced. <b>SAFE mode:</b> TT&amp;C only.</li>
+    </ul></div>
+
+  <div class="card"><b>Data structures and complexity</b>
+    <div class="tw"><table class="cx"><thead><tr><th>Structure</th><th>Used for</th><th>Operation</th><th>Time</th></tr></thead><tbody>
+      <tr><td>Binary min-heap (array)</td><td>Priority queue</td><td>push / pop / remove / update</td><td class="mono">O(log n)</td></tr>
+      <tr><td>Binary min-heap</td><td>Peek highest priority</td><td>a[0]</td><td class="mono">O(1)</td></tr>
+      <tr><td>Binary min-heap</td><td>Re-prioritise all packets</td><td>rebuild (heapify)</td><td class="mono">O(n)</td></tr>
+      <tr><td>Hash map (Map)</td><td>Packet ID → heap index</td><td>get / set / delete</td><td class="mono">O(1)</td></tr>
+      <tr><td>Circular buffer</td><td>Decision log</td><td>add</td><td class="mono">O(1)</td></tr>
+      <tr><td>Finite state machine</td><td>Deployment and SAFE mode</td><td>transition lookup</td><td class="mono">O(1)</td></tr>
+      <tr><td>Greedy scheduling</td><td>Choosing what to transmit</td><td>one pass</td><td class="mono">O(k log n)</td></tr>
+    </tbody></table></div></div>
+
+  <div class="ds">
+    <div class="card"><h3>1 · Min-heap: push and sift up</h3><p>New packets are added at the end, then swapped upward until the heap order holds.</p><pre id="c1"></pre></div>
+    <div class="card"><h3>2 · Min-heap: remove and sift down</h3><p>The hash map finds any packet in O(1), so it can be removed or re-keyed in O(log n).</p><pre id="c2"></pre></div>
+    <div class="card"><h3>3 · Re-prioritise (heapify)</h3><p>When the battery or link changes, every key is recomputed and the heap rebuilt in O(n).</p><pre id="c3"></pre></div>
+    <div class="card"><h3>4 · Circular buffer log</h3><p>Fixed memory: the newest entry overwrites the oldest, as onboard memory is limited.</p><pre id="c4"></pre></div>
+    <div class="card"><h3>5 · State machine table</h3><p>A transition table defines which events are legal in each state. Anything else is ignored.</p><pre id="c5"></pre></div>
+    <div class="card"><h3>6 · Ground pass (greedy scheduler)</h3><p>Pop the best packet, check time and power, transmit or defer, then put deferred packets back.</p><pre id="c6"></pre></div>
+  </div>
+  <footer>KJS-SRS-01 · SomaiyaSat / SomaiyaPod · data structures project</footer>
+</section>
+</div>
+
+<script>
+/* ================= DATA STRUCTURES ================= */
+
+// Binary min-heap with a hash map (id -> index) so any packet can be found in O(1)
+class MinHeap {
+  constructor() { this.a = []; this.pos = new Map(); }
+  less(x, y) { return x.pr < y.pr || (x.pr === y.pr && x.id < y.id); }
+  swap(i, j) {
+    const a = this.a;
+    [a[i], a[j]] = [a[j], a[i]];
+    this.pos.set(a[i].id, i);
+    this.pos.set(a[j].id, j);
+  }
+  up(i) {                                   // sift up, O(log n)
+    while (i > 0) {
+      const p = (i - 1) >> 1;
+      if (this.less(this.a[i], this.a[p])) { this.swap(i, p); i = p; }
+      else break;
+    }
+  }
+  down(i) {                                 // sift down, O(log n)
+    const n = this.a.length;
+    for (;;) {
+      let m = i;
+      const l = 2 * i + 1, r = l + 1;
+      if (l < n && this.less(this.a[l], this.a[m])) m = l;
+      if (r < n && this.less(this.a[r], this.a[m])) m = r;
+      if (m === i) return;
+      this.swap(i, m);
+      i = m;
+    }
+  }
+  push(x) {                                 // O(log n)
+    this.a.push(x);
+    this.pos.set(x.id, this.a.length - 1);
+    this.up(this.a.length - 1);
+  }
+  pop() {                                   // O(log n)
+    const top = this.a[0];
+    this.remove(top.id);
+    return top;
+  }
+  remove(id) {                              // O(log n)
+    const i = this.pos.get(id);
+    const last = this.a.pop();
+    this.pos.delete(id);
+    if (i < this.a.length) {
+      this.a[i] = last;
+      this.pos.set(last.id, i);
+      this.up(i);
+      this.down(i);
+    }
+  }
+  rebuild(keyFn) {                          // O(n) heapify
+    this.a.forEach(p => p.pr = keyFn(p));
+    for (let i = (this.a.length >> 1) - 1; i >= 0; i--) this.down(i);
+  }
+  worst() { return this.a.reduce((m, x) => this.less(m, x) ? x : m); }
+  get size() { return this.a.length; }
+}
+
+// Circular buffer (fixed size, oldest entry overwritten)
+class RingLog {
+  constructor(n) { this.buf = new Array(n); this.n = n; this.head = 0; this.count = 0; }
+  add(x) {                                  // O(1)
+    this.buf[this.head] = x;
+    this.head = (this.head + 1) % this.n;
+    if (this.count < this.n) this.count++;
+  }
+  list() {                                  // newest first
+    const out = [];
+    for (let i = 0; i < this.count; i++) out.push(this.buf[(this.head - 1 - i + this.n * 2) % this.n]);
+    return out;
+  }
+}
+
+// Finite state machine: state -> { event -> next state }
+const FSM = {
+  STOWED:        { separation_switch: "SEPARATED" },
+  SEPARATED:     { timer_done: "COMMISSIONING" },
+  COMMISSIONING: { beacon_ack: "NOMINAL" },
+  NOMINAL:       { low_power: "SAFE" },
+  SAFE:          { power_ok: "NOMINAL" }
+};
+
+/* ================= SATELLITE MODEL ================= */
+const PRI = { TTC: 0, SSTV: 1, CODEC2: 2, M17: 2 };
+const SZ = { TTC: [100, 200], SSTV: [6000, 14000], CODEC2: [800, 2500], M17: [1000, 3000] };
+const MAXBUF = 30, BMAX = 5, RESERVE = 0.75;
+let heap, logbuf, battery, state, counter, dropped, quiet, passNo, history;
+
+function reset() {
+  heap = new MinHeap(); logbuf = new RingLog(60);
+  battery = 4; state = "STOWED"; counter = 0; dropped = 0; quiet = 0; passNo = 0; history = [];
+}
+function log(t, c) { logbuf.add({ t, c: c || "" }); }
+const rnd = (a, b) => Math.floor(a + Math.random() * (b - a + 1));
+
+function fire(ev) {
+  const nx = FSM[state][ev];
+  if (!nx) { log(`event '${ev}' ignored in ${state}`, "wn"); return false; }
+  log(`STATE ${state} → ${nx} (${ev})`, "tx");
+  state = nx; return true;
+}
+function addPacket(mode, size) {
+  if (heap.size >= MAXBUF) {
+    const w = heap.worst();
+    if (PRI[mode] >= w.pr) { dropped++; log(`buffer full: dropped new ${mode}`, "er"); return; }
+    heap.remove(w.id); dropped++; log(`buffer full: evicted ${w.mode} #${w.id}`, "er");
+  }
+  counter++;
+  heap.push({ id: counter, mode, size, base: PRI[mode], pr: PRI[mode] });
+}
+function keyFor(link) {
+  return p => {
+    let k = p.base;
+    if (p.mode !== "TTC") {
+      if (battery < 1.5 && p.mode !== "SSTV") k += 3;   // save power: voice waits
+      if (link < 0.4 && p.mode === "SSTV") k += 2;      // big images wasteful on bad link
+    }
+    return k;
+  };
+}
+function runPass(dur, link) {
+  passNo++;
+  const rate = 9600 * link, sent = { TTC: 0, SSTV: 0, CODEC2: 0, M17: 0 }, back = [];
+  let left = dur;
+  log(`PASS ${passNo}: link ${link.toFixed(2)}, ${dur}s, battery ${battery.toFixed(2)} Wh, queue ${heap.size}`);
+  if (quiet >= 2) { addPacket("TTC", 120); log("WATCHDOG: forced TT&C beacon", "wn"); }
+  heap.rebuild(keyFor(link));
+  while (heap.size && left > 0) {
+    const p = heap.pop(), air = p.size * 8 / rate, en = air * 1.2 / 3600;
+    if (state === "SAFE" && p.mode !== "TTC") { back.push(p); continue; }
+    if (air > left) { back.push(p); continue; }
+    if (p.mode !== "TTC" && battery - en < RESERVE) { back.push(p); log(`skip ${p.mode} #${p.id}: power reserve`, "wn"); continue; }
+    left -= air; battery -= en; sent[p.mode]++;
+    log(`TX ${p.mode} #${p.id} ${p.size} B (${air.toFixed(1)} s)`, "tx");
+  }
+  back.forEach(p => heap.push(p));
+  quiet = sent.TTC ? 0 : quiet + 1;
+  battery = Math.min(BMAX, Math.max(0, battery - 0.55 + 0.9));
+  if (battery < RESERVE) fire("low_power"); else if (state === "SAFE" && battery > 2) fire("power_ok");
+  history.push(sent);
+  return sent;
+}
+
+/* ================= UI ================= */
+const $ = id => document.getElementById(id);
+const ORDER = ["STOWED", "SEPARATED", "COMMISSIONING", "NOMINAL"];
+const NOTE = { STOWED: "Awaiting separation switch", SEPARATED: "Antenna timer running", COMMISSIONING: "Waiting for beacon ack", NOMINAL: "Flight software online", SAFE: "TT&C only" };
+
+function draw() {
+  const link = +$("link").value, dur = +$("dur").value, kbps = 9.6 * link;
+  $("lv").textContent = link.toFixed(2); $("dv").textContent = dur + " s";
+  $("kb").textContent = kbps.toFixed(1) + " kbps"; $("cap").textContent = Math.round(kbps * 1000 * dur / 8 / 1000) + " KB theoretical capacity";
+  $("bv").textContent = battery.toFixed(2); $("bb").style.width = battery / BMAX * 100 + "%";
+  const lvl = battery < RESERVE ? "bad" : battery < 1.5 ? "mid" : "";
+  $("bb").style.background = lvl === "bad" ? "var(--rd)" : lvl === "mid" ? "var(--am)" : "var(--tl)";
+  $("bchip").className = "chip " + lvl; $("bchip").textContent = lvl === "bad" ? "CRITICAL" : lvl === "mid" ? "LOW" : "HEALTHY";
+  $("st").textContent = state; $("stnote").textContent = NOTE[state];
+  const idx = ORDER.indexOf(state);
+  $("seg").className = "seg" + (state === "SAFE" ? " safe" : "");
+  [...$("seg").children].forEach((s, i) => s.className = (state === "SAFE" || i <= idx) ? "on" : "");
+  $("qn").textContent = heap.size; $("qchip").textContent = heap.size + "/" + MAXBUF; $("dr").textContent = dropped;
+  const sorted = heap.a.slice().sort((x, y) => heap.less(x, y) ? -1 : 1);
+  $("cells").innerHTML = Array.from({ length: MAXBUF }, (_, i) => `<span class="${sorted[i] ? sorted[i].mode : ""}"></span>`).join("");
+  $("qc").textContent = heap.size + " packets";
+  $("q").innerHTML = sorted.map((p, i) => `<tr><td>${i + 1}</td><td><span class="pill ${p.mode}">${p.mode}</span></td><td>${p.size}</td><td>${p.pr}</td></tr>`).join("") || `<tr><td colspan="4" class="empty">Queue empty. Add packets.</td></tr>`;
+  $("log").innerHTML = logbuf.list().map(l => `<div class="${l.c}">${l.t}</div>`).join("");
+  const mx = Math.max(1, ...history.map(h => h.TTC + h.SSTV + h.CODEC2 + h.M17));
+  $("chart").innerHTML = history.length ? history.map((h, i) => `<div style="text-align:center"><div class="col" style="height:${140}px;justify-content:flex-start"><i style="height:${h.TTC / mx * 140}px;background:var(--rd)"></i><i style="height:${h.SSTV / mx * 140}px;background:var(--am)"></i><i style="height:${(h.CODEC2 + h.M17) / mx * 140}px;background:var(--tl)"></i></div><small class="mono" style="color:var(--mu)">P${i + 1}</small></div>`).join("") : `<div class="empty" style="width:100%;align-self:center">Run a pass to see results.</div>`;
+}
+
+$("dep").onclick = () => {
+  const ev = { STOWED: "separation_switch", SEPARATED: "timer_done", COMMISSIONING: "beacon_ack" }[state];
+  ev ? fire(ev) : log(state === "SAFE" ? "In SAFE mode: recharge first" : "Already NOMINAL", "wn"); draw();
+};
+$("add").onclick = () => { for (let i = 0; i < 10; i++) { const m = ["TTC", "SSTV", "CODEC2", "M17", "M17"][rnd(0, 4)]; addPacket(m, rnd(...SZ[m])); } draw(); };
+$("run").onclick = () => {
+  if (state === "STOWED" || state === "SEPARATED" || state === "COMMISSIONING") { log("Satellite not NOMINAL yet: advance deployment first", "wn"); draw(); return; }
+  const s = runPass(+$("dur").value, +$("link").value);
+  $("res").textContent = `TT&C ${s.TTC} · SSTV ${s.SSTV} · CODEC2 ${s.CODEC2} · M17 ${s.M17}`; draw();
+};
+$("drain").onclick = () => { battery = 1.0; log("Battery forced to 1.0 Wh: voice will be deferred", "wn"); draw(); };
+$("reset").onclick = () => { reset(); $("res").textContent = "no pass yet"; draw(); };
+["link", "dur"].forEach(id => $(id).oninput = draw);
+
+// theme + simple hash routing (#mission / #how)
+$("theme").onclick = () => {
+  const d = document.documentElement, l = d.dataset.theme === "dark";
+  d.dataset.theme = l ? "light" : "dark"; $("theme").textContent = l ? "☾" : "☀";
+};
+function route() {
+  const how = location.hash === "#how";
+  $("mission").hidden = how; $("how").hidden = !how;
+  $("n1").className = how ? "" : "on"; $("n2").className = how ? "on" : "";
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+
+// show the real source code of the structures on the "How it works" page
+const src = f => f.toString().replace(/^\s{2}/gm, "");
+const P = MinHeap.prototype;
+$("c1").textContent = "push(x) {...}\n" + src(P.push).replace(/^/, "") + "\n\n" + src(P.up);
+$("c2").textContent = src(P.remove) + "\n\n" + src(P.down) + "\n\n" + src(P.pop);
+$("c3").textContent = src(P.rebuild) + "\n\n" + src(keyFor);
+$("c4").textContent = src(RingLog);
+$("c5").textContent = "const FSM = " + JSON.stringify(FSM, null, 2) + ";\n\n" + src(fire);
+$("c6").textContent = src(runPass);
+$("c1").textContent = $("c1").textContent.replace("push(x) {...}\n", "");
+
+reset(); log("Simulation ready. Advance deployment, add packets, then run a pass."); route(); draw();
+</script>
+</body>
+</html>
